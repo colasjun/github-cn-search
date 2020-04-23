@@ -1,21 +1,43 @@
 package engine
 
 import (
-	"github.com/astaxie/beego/config"
+	"encoding/json"
+	"fmt"
+	condition_shop "github-cn-search/service/condition-shop"
+	result_expoter "github-cn-search/service/result-expoter"
+	"net/http"
 )
 
-// global config
-var configer config.Configer
+func searchEngine(w http.ResponseWriter, r *http.Request) (e error) {
+	r.ParseForm()
+	fmt.Printf("searchEngine recieve msg success\n",r.Form)
 
-//starter
-func Start()  {
-	// loading config
-	Configer, e := loadConfig()
-	if e != nil {
-		panic("loading failed...")
+	var msg string
+	for k,v := range r.Form {
+		if k == "s" {
+			msg = v[0]
+		}
 	}
-	configer = Configer
 
+	condition_shop.Condition(msg)
 
+	fmt.Fprintf(w, "ok")
 
+	return nil
+}
+
+func menuEngine(w http.ResponseWriter, r *http.Request) (e error) {
+	menu := condition_shop.Menu()
+
+	fmt.Println("get menu result:", menu)
+	bytes, e := json.Marshal(menu)
+	if e != nil {
+		fmt.Println("menu Engine parse json fail...err=",e)
+		failResult,_ := json.Marshal(result_expoter.FailReturn("system error"))
+		fmt.Fprintf(w, string(failResult))
+		return nil
+	}
+
+	fmt.Fprintf(w, string(bytes))
+	return nil
 }

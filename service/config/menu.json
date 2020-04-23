@@ -1,0 +1,12 @@
+[
+  {
+    "en" : "name",
+    "cn" : "名词",
+    "key" : "gcs-name"
+  },
+  {
+    "en" : "readme",
+    "cn" : "说明",
+    "key" : "gcs-readme"
+  }
+]
