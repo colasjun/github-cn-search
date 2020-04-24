@@ -1,6 +1,9 @@
 package condition_shop
 
-import "fmt"
+import (
+	"fmt"
+	"github-cn-search/service/common"
+)
 
 type ConditionMsg struct {
 	code int // 0 success 1 failure
@@ -8,16 +11,12 @@ type ConditionMsg struct {
 	condition string // success result
 }
 
-func Condition(msg string) (c ConditionMsg){
-	c = ConditionMsg{0,"ok",""}
-
+func Condition(msg string) (s string,code int){
 	fmt.Printf("condition_shop recieve msg success:%s", msg)
 
 	if len(msg) < 1 {
-		c.code = 1
-		c.reason = "params empty"
-		return c
+		return "params empty",common.Code.FAIL
 	}
 
-	return c
+	return "",common.Code.OK
 }

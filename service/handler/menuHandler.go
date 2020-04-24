@@ -4,10 +4,16 @@ import (
 	"encoding/json"
 	"fmt"
 	cache_store "github-cn-search/service/cache-store"
+	"github-cn-search/service/common"
 	result_expoter "github-cn-search/service/result-expoter"
 	"github.com/astaxie/beego/config"
 	"net/http"
 )
+
+type ReturnData struct {
+	Code int `json:code`
+	Data MenuData `json:data`
+}
 
 type MenuData struct {
 	UnitData []MenuUnitData `json:"unitData"`
@@ -22,10 +28,10 @@ type MenuUnitData struct {
 func MenuIndex(w http.ResponseWriter, r *http.Request) (e error) {
 	menu := menu()
 
-	fmt.Println("get menu result:", menu)
+	fmt.Println("MenuIndex get menu result:", menu)
 	bytes, e := json.Marshal(menu)
 	if e != nil {
-		fmt.Println("menu Engine parse json fail...err=",e)
+		fmt.Println("MenuIndex parse json fail...err=",e)
 		failResult,_ := json.Marshal(result_expoter.FailReturn("system error"))
 		fmt.Fprintf(w, string(failResult))
 		return nil
@@ -35,23 +41,24 @@ func MenuIndex(w http.ResponseWriter, r *http.Request) (e error) {
 	return nil
 }
 
-func menu() (m MenuData){
+func menu() (r ReturnData){
 	configer,e := config.NewConfig("json", "./config/menu.json")
 	if e != nil {
-		fmt.Println("condition-shop menu read config init fail...err=",e)
-		panic("condition-shop menu read config init fail...")
+		fmt.Println("MenuIndex read config menu.json fail...err=",e)
+		panic(common.FailMsg.PanicMsg)
 	}
 
 	menuArray, err := configer.DIY("rootArray")
 	if err != nil {
-		fmt.Println("condition-shop menu read config DIY fail...err=",e)
-		panic("condition-shop menu read config DIY fail...")
+		fmt.Println("MenuIndex read config DIY fail...err=",e)
+		panic(common.FailMsg.PanicMsg)
 	}
 
+	var m MenuData
 	menuArrayCasted := menuArray.([]interface{})
 	if menuArrayCasted == nil {
-		fmt.Println("condition-shop menu read config cast fail...err=",e)
-		panic("condition-shop menu read config cast fail...")
+		fmt.Println("MenuIndex read config cast fail...err=",e)
+		panic(common.FailMsg.PanicMsg)
 	} else {
 		var MenuUnitData MenuUnitData
 		for _,v := range menuArrayCasted  {
@@ -74,7 +81,11 @@ func menu() (m MenuData){
 		}
 	}
 
-	return m
+	var returnData ReturnData
+	returnData.Code = common.Code.OK
+	returnData.Data = m
+
+	return returnData
 }
 
 
