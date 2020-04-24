@@ -1,10 +1,12 @@
-package condition_shop
+package handler
 
 import (
 	"encoding/json"
 	"fmt"
 	cache_store "github-cn-search/service/cache-store"
+	result_expoter "github-cn-search/service/result-expoter"
 	"github.com/astaxie/beego/config"
+	"net/http"
 )
 
 type MenuData struct {
@@ -17,7 +19,23 @@ type MenuUnitData struct {
 	UnitValue []string `json:"unitValue"`
 }
 
-func Menu() (m MenuData){
+func MenuIndex(w http.ResponseWriter, r *http.Request) (e error) {
+	menu := menu()
+
+	fmt.Println("get menu result:", menu)
+	bytes, e := json.Marshal(menu)
+	if e != nil {
+		fmt.Println("menu Engine parse json fail...err=",e)
+		failResult,_ := json.Marshal(result_expoter.FailReturn("system error"))
+		fmt.Fprintf(w, string(failResult))
+		return nil
+	}
+
+	fmt.Fprintf(w, string(bytes))
+	return nil
+}
+
+func menu() (m MenuData){
 	configer,e := config.NewConfig("json", "./config/menu.json")
 	if e != nil {
 		fmt.Println("condition-shop menu read config init fail...err=",e)
@@ -58,3 +76,5 @@ func Menu() (m MenuData){
 
 	return m
 }
+
+
