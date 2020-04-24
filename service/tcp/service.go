@@ -12,6 +12,7 @@ func LoadTcpService() (e error) {
 	fmt.Println("starting service...")
 
 	addr := config.CONF.Get("SERVICE_HOST") + ":" + config.CONF.Get("SERVICE_PORT")
+
 	// router...
 	router()
 
