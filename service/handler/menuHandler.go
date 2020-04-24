@@ -5,7 +5,7 @@ import (
 	"fmt"
 	cache_store "github-cn-search/service/cache-store"
 	"github-cn-search/service/common"
-	result_expoter "github-cn-search/service/result-expoter"
+	"github-cn-search/service/result"
 	"github.com/astaxie/beego/config"
 	"net/http"
 )
@@ -32,7 +32,7 @@ func MenuIndex(w http.ResponseWriter, r *http.Request) (e error) {
 	bytes, e := json.Marshal(menu)
 	if e != nil {
 		fmt.Println("MenuIndex parse json fail...err=",e)
-		failResult,_ := json.Marshal(result_expoter.FailReturn("system error"))
+		failResult,_ := json.Marshal(result.FailReturn("system error"))
 		fmt.Fprintf(w, string(failResult))
 		return nil
 	}

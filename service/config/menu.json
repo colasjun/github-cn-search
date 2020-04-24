@@ -2,11 +2,13 @@
   {
     "en" : "name",
     "cn" : "名称",
-    "key" : "gcs-name"
+    "key" : "gcs-name",
+    "type" : "in"
   },
   {
     "en" : "readme",
     "cn" : "说明",
-    "key" : "gcs-readme"
+    "key" : "gcs-readme",
+    "type" : "in"
   }
 ]

@@ -1,4 +1,4 @@
-package result_expoter
+package result
 
 import "github-cn-search/service/common"
 
@@ -8,7 +8,7 @@ type FailData struct {
 }
 
 func FailReturn(msg string) (FailData FailData) {
-	FailData.Code = common.Code.OK
+	FailData.Code = common.Code.FAIL
 	FailData.Msg = msg
 	return FailData
 }
