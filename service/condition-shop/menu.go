@@ -1,7 +1,9 @@
 package condition_shop
 
 import (
+	"encoding/json"
 	"fmt"
+	cache_store "github-cn-search/service/cache-store"
 	"github.com/astaxie/beego/config"
 )
 
@@ -40,6 +42,15 @@ func Menu() (m MenuData){
 				MenuUnitData.UnitCN = element["cn"].(string)
 				MenuUnitData.UnitEN = element["en"].(string)
 				MenuUnitData.UnitValue = nil
+				menuCacheResult := cache_store.CACHE.Get(element["key"].(string))
+				fmt.Println(MenuUnitData.UnitEN,":cache value:", menuCacheResult)
+				if len(menuCacheResult) > 0 {
+					var UnitValue []string
+					e := json.Unmarshal([]byte(menuCacheResult), &UnitValue)
+					if e == nil {
+						MenuUnitData.UnitValue = UnitValue
+					}
+				}
 				m.UnitData = append(m.UnitData, MenuUnitData)
 			}
 		}

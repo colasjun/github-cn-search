@@ -1,4 +1,4 @@
-package engine
+package tcp
 
 import (
 	"encoding/json"
@@ -7,6 +7,18 @@ import (
 	result_expoter "github-cn-search/service/result-expoter"
 	"net/http"
 )
+
+func router()  {
+	// for search
+	http.HandleFunc("/search", func(writer http.ResponseWriter, request *http.Request) {
+		searchEngine(writer, request)
+	})
+
+	// for menu
+	http.HandleFunc("/menu", func(writer http.ResponseWriter, request *http.Request) {
+		menuEngine(writer, request)
+	})
+}
 
 func searchEngine(w http.ResponseWriter, r *http.Request) (e error) {
 	r.ParseForm()

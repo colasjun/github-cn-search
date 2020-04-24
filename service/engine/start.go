@@ -1,56 +1,29 @@
 package engine
 
 import (
-	"fmt"
-	"github.com/astaxie/beego/config"
-	"net/http"
+	cache_store "github-cn-search/service/cache-store"
+	"github-cn-search/service/config"
+	"github-cn-search/service/tcp"
 )
-
-// global config
-var configer config.Configer
 
 //starter
 func Start()  {
 	// loading config
-	Configer, e := loadConfig()
+	e := config.LoadConfig()
 	if e != nil {
-		panic("loading failed...")
+		panic("loading config failed...")
 	}
-	configer = Configer
+
+	// loading cache server
+	e = cache_store.LoadCache()
+	if e != nil {
+		panic("loading config failed...")
+	}
 
 	// loading tcp service
-	e = loadTcpService()
+	e = tcp.LoadTcpService()
 	if e != nil {
-		panic("loading failed...")
+		panic("loading service failed...")
 	}
-}
-
-
-// loading config
-func loadConfig() (Configer config.Configer,e error) {
-	configer, e := config.NewConfig("ini", "./config/config.ini")
-	if e != nil {
-		fmt.Println("service load config fail....err:",e)
-		return nil, e
-	}
-
-	return configer,nil
-}
-
-// loading tcp service
-func loadTcpService() (e error) {
-	fmt.Println("starting service...")
-
-	addr := configer.String("service_host") + ":" + configer.String("service_port")
-	router()
-	fmt.Println("service starting ok...")
-
-	err := http.ListenAndServe(addr, nil)
-
-	if e != nil {
-		fmt.Printf("service load tcp listen %s fail....err=%s",addr,e)
-		return err
-	}
-	return nil
 }
 
