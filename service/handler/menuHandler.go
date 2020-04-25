@@ -42,13 +42,13 @@ func MenuIndex(w http.ResponseWriter, r *http.Request) (e error) {
 }
 
 func menu() (r ReturnData){
-	configer,e := config.NewConfig("json", "./config/menu.json")
+	config,e := config.NewConfig("json", "./config/menu.json")
 	if e != nil {
 		fmt.Println("MenuIndex read config menu.json fail...err=",e)
 		panic(common.FailMsg.PanicMsg)
 	}
 
-	menuArray, err := configer.DIY("rootArray")
+	menuArray, err := config.DIY("rootArray")
 	if err != nil {
 		fmt.Println("MenuIndex read config DIY fail...err=",e)
 		panic(common.FailMsg.PanicMsg)
