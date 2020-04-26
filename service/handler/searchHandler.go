@@ -12,7 +12,7 @@ import (
 
 type ReturnSearchData struct {
 	Code int `json:code`
-	Data string `json:data`
+	Data searcher.SearchData
 }
 
 func SearchIndex(w http.ResponseWriter, r *http.Request) (e error) {
@@ -41,7 +41,7 @@ func SearchIndex(w http.ResponseWriter, r *http.Request) (e error) {
 	searchResult,e := searcher.Search(s)
 	if e != nil {
 		fmt.Println("SearchIndex searcher fail...err=",e)
-		failResult,_ := json.Marshal(result.FailReturn(searchResult))
+		failResult,_ := json.Marshal(result.FailReturn("Search Get net error"))
 		fmt.Fprintf(w, string(failResult))
 		return nil
 	}
@@ -51,6 +51,7 @@ func SearchIndex(w http.ResponseWriter, r *http.Request) (e error) {
 	returnData.Data = searchResult
 
 	successResult,_ := json.Marshal(returnData)
+	fmt.Println("search success..return data ===>",searchResult)
 	fmt.Fprintf(w, string(successResult))
 	return nil
 }
