@@ -3,12 +3,18 @@
     "en" : "name",
     "cn" : "名称",
     "key" : "gcs-name",
-    "type" : "in"
+    "type" : "select"
   },
   {
     "en" : "readme",
     "cn" : "说明",
     "key" : "gcs-readme",
-    "type" : "in"
+    "type" : "text"
+  },
+  {
+    "en" : "description",
+    "cn" : "描述",
+    "key" : "gcs-description",
+    "type" : "text"
   }
 ]

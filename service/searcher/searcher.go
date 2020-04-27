@@ -13,16 +13,16 @@ import (
 
 
 type SearchData struct {
-	SearchItems []SearchItem `json:searchItems`
-	PageData common.PageDataStruct `json:pageData`
+	SearchItems []SearchItem `json:"searchItems"`
+	PageData common.PageDataStruct `json:"pageData"`
 }
 
 type SearchItem struct {
-	Name string `json:name`
-	Description string `json:description`
-	Starts int `json:starts`
-	Labels []string `json:labels`
-	Language string `json:language`
+	Name string `json:"name"`
+	Description string `json:"description"`
+	Stars int `json:"stars"`
+	Labels []string `json:"labels"`
+	Language string `json:"language"`
 }
 
 func Search(searchMsg string) (result SearchData,e error){
@@ -72,10 +72,10 @@ func Search(searchMsg string) (result SearchData,e error){
 
 		stars := strings.TrimSpace(s.Find(".mt-n1 .text-small .mr-3 a").Text())
 		if strings.Index(stars, "k") == -1 {
-			searchItem.Starts,_ = strconv.Atoi(stars)
+			searchItem.Stars,_ = strconv.Atoi(stars)
 		} else {
 			newStars,_ := strconv.ParseFloat(strings.Replace(stars,"k","", -1), 64)
-			searchItem.Starts =  int(newStars * 1000)
+			searchItem.Stars =  int(newStars * 1000)
 		}
 
 		searchItem.Language = strings.TrimSpace(s.Find(".mt-n1 .text-small .mr-3 span[itemprop]").Text())

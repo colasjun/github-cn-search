@@ -11,8 +11,8 @@ import (
 )
 
 type ReturnData struct {
-	Code int `json:code`
-	Data MenuData `json:data`
+	Code int `json:"code"`
+	Data MenuData `json:"data"`
 }
 
 type MenuData struct {
@@ -22,6 +22,7 @@ type MenuData struct {
 type MenuUnitData struct {
 	UnitEN string `json:"unitEN"`// like name description and so on
 	UnitCN string `json:"unitCN"`// explain for zh
+	SearchType string `json:"type"` // search type
 	UnitValue []string `json:"unitValue"`
 }
 
@@ -66,6 +67,7 @@ func menu() (r ReturnData){
 				element := v.(map[string]interface{})
 				MenuUnitData.UnitCN = element["cn"].(string)
 				MenuUnitData.UnitEN = element["en"].(string)
+				MenuUnitData.SearchType = element["type"].(string)
 				MenuUnitData.UnitValue = nil
 				menuCacheResult := cache_store.CACHE.Get(element["key"].(string))
 				fmt.Println(MenuUnitData.UnitEN,":cache value:", menuCacheResult)

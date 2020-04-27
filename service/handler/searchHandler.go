@@ -11,7 +11,7 @@ import (
 )
 
 type ReturnSearchData struct {
-	Code int `json:code`
+	Code int `json:"code""`
 	Data searcher.SearchData
 }
 
