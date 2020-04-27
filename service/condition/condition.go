@@ -47,6 +47,8 @@ func switchCondition(conType string,k string,v string) (s string) {
 			return conditionIn(k, v)
 		case "no-in":
 			return conditionNoIn(k, v)
+		case "gt":
+			return conditionNoIn(k, v)
 		default:
 			return ""
 	}
