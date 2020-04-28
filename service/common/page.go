@@ -1,6 +1,6 @@
 package common
 
-type PageDataStruct struct {
+type PageDataStructure struct {
 	Total int `json:"total"`
 	TotalPage int `json:"totalSize"`
 	CurrentPage int `json:"currentPage"`
