@@ -19,8 +19,14 @@
   },
   {
     "en" : "stars",
-    "cn" : "关注量",
+    "cn" : "点赞量",
     "key" : "gcs-stars",
+    "type" : "text"
+  },
+  {
+    "en" : "followers",
+    "cn" : "关注量",
+    "key" : "gcs-followers",
     "type" : "text"
   },
   {
