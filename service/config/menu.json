@@ -16,5 +16,17 @@
     "cn" : "描述",
     "key" : "gcs-description",
     "type" : "text"
+  },
+  {
+    "en" : "stars",
+    "cn" : "关注量",
+    "key" : "gcs-stars",
+    "type" : "text"
+  },
+  {
+    "en" : "forks",
+    "cn" : "复刻量",
+    "key" : "gcs-forks",
+    "type" : "text"
   }
 ]
