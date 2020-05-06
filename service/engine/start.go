@@ -21,6 +21,9 @@ func Start()  {
 		panic("loading cache " + common.FailMsg.PanicMsg)
 	}
 
+	// loading business data,like default config
+	loadInit()
+
 	// loading tcp service
 	e = tcp.LoadTcpService()
 	if e != nil {

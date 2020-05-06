@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github-cn-search/service/config"
 	"github.com/go-redis/redis"
+	"time"
 )
 
 var CACHE *CACHEOBJ
@@ -13,14 +14,18 @@ type CACHEOBJ struct {
 }
 
 func (c *CACHEOBJ) Get(key string) (s string) {
-	//LoadCache()
 	s, e := c.C.Get(key).Result()
 	if e != nil {
-		fmt.Println("cache err...err=",e)
+		fmt.Println("cache get err...err=",e)
 		return ""
 	}
 
 	return s
+}
+
+func (c *CACHEOBJ) Set(key string, value string, expiration time.Duration) (s string) {
+	c.C.Set(key, value, 0)
+	return ""
 }
 
 // loading cache

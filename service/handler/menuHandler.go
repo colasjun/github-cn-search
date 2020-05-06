@@ -27,6 +27,9 @@ type MenuUnitData struct {
 }
 
 func MenuIndex(w http.ResponseWriter, r *http.Request) (e error) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
+	w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
+
 	menu := menu()
 
 	fmt.Println("MenuIndex get menu result:", menu)
@@ -60,26 +63,26 @@ func menu() (r ReturnData){
 	if menuArrayCasted == nil {
 		fmt.Println("MenuIndex read config cast fail...err=",e)
 		panic(common.FailMsg.PanicMsg)
-	} else {
-		var MenuUnitData MenuUnitData
-		for _,v := range menuArrayCasted  {
-			if v != nil {
-				element := v.(map[string]interface{})
-				MenuUnitData.UnitCN = element["cn"].(string)
-				MenuUnitData.UnitEN = element["en"].(string)
-				MenuUnitData.SearchType = element["type"].(string)
-				MenuUnitData.UnitValue = nil
-				menuCacheResult := cache_store.CACHE.Get(element["key"].(string))
-				fmt.Println(MenuUnitData.UnitEN,":cache value:", menuCacheResult)
-				if len(menuCacheResult) > 0 {
-					var UnitValue []string
-					e := json.Unmarshal([]byte(menuCacheResult), &UnitValue)
-					if e == nil {
-						MenuUnitData.UnitValue = UnitValue
-					}
+	}
+
+	var MenuUnitData MenuUnitData
+	for _,v := range menuArrayCasted  {
+		if v != nil {
+			element := v.(map[string]interface{})
+			MenuUnitData.UnitCN = element["cn"].(string)
+			MenuUnitData.UnitEN = element["en"].(string)
+			MenuUnitData.SearchType = element["type"].(string)
+			MenuUnitData.UnitValue = nil
+			menuCacheResult := cache_store.CACHE.Get(element["key"].(string))
+			fmt.Println(MenuUnitData.UnitEN,":cache value:", menuCacheResult)
+			if len(menuCacheResult) > 0 {
+				var UnitValue []string
+				e := json.Unmarshal([]byte(menuCacheResult), &UnitValue)
+				if e == nil {
+					MenuUnitData.UnitValue = UnitValue
 				}
-				m.UnitData = append(m.UnitData, MenuUnitData)
 			}
+			m.UnitData = append(m.UnitData, MenuUnitData)
 		}
 	}
 

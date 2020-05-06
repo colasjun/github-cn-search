@@ -3,7 +3,7 @@
     "en" : "name",
     "cn" : "名称",
     "key" : "gcs-name",
-    "type" : "select"
+    "type" : "text"
   },
   {
     "en" : "readme",
@@ -18,21 +18,27 @@
     "type" : "text"
   },
   {
+    "en" : "language",
+    "cn" : "语言",
+    "key" : "gcs-language",
+    "type" : "select"
+  },
+  {
     "en" : "stars",
     "cn" : "点赞量",
     "key" : "gcs-stars",
-    "type" : "text"
+    "type" : "select"
   },
   {
     "en" : "followers",
     "cn" : "关注量",
     "key" : "gcs-followers",
-    "type" : "text"
+    "type" : "select"
   },
   {
     "en" : "forks",
     "cn" : "复刻量",
     "key" : "gcs-forks",
-    "type" : "text"
+    "type" : "select"
   }
 ]

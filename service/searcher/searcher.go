@@ -14,7 +14,7 @@ import (
 
 type SearchData struct {
 	SearchItems []SearchItem `json:"searchItems"`
-	PageData common.PageDataStruct `json:"pageData"`
+	PageData common.PageDataStructure `json:"pageData"`
 }
 
 type SearchItem struct {
