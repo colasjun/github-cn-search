@@ -23,10 +23,11 @@ type SearchItem struct {
 	Stars int `json:"stars"`
 	Labels []string `json:"labels"`
 	Language string `json:"language"`
+	Src string `json:"src"`
 }
 
 func Search(searchMsg string) (result SearchData,e error){
-	SearchAddr := config.CONF.Get("GITHUB_HOST") + url.QueryEscape(strings.TrimSpace(searchMsg))
+	SearchAddr := config.CONF.Get("GITHUB_HOST") + "search?q=" + url.QueryEscape(strings.TrimSpace(searchMsg))
 	fmt.Println("Search get addr=", SearchAddr)
 
 	resp, err := http.Get(SearchAddr)
@@ -84,6 +85,8 @@ func Search(searchMsg string) (result SearchData,e error){
 		s.Find(".mt-n1 .topic-tag").Each(func(i int, s *goquery.Selection) {
 			searchItem.Labels = append(searchItem.Labels, strings.TrimSpace(s.Text()))
 		})
+
+		searchItem.Src = config.CONF.Get("GITHUB_HOST") + "/" + searchItem.Name
 
 		searchData.SearchItems = append(searchData.SearchItems, searchItem)
 	})
